@@ -1,69 +1,64 @@
 javascript: (() => {
-    const listContainer = document.querySelector(".video-pod__body > .video-pod__list.multip.list");
-    if (!listContainer) {
-        const unsupportedList = document.querySelector(".video-pod__body > .video-pod__list.section");
-        if (unsupportedList) {
-            return showError("当前视频列表样式不支持\n(无法获取视频时长)", 5000);
-        }
-        return showError("未找到支持的视频列表容器", 3000);
+  const listContainer = document.querySelector(".video-pod__body > .video-pod__list");
+  if (!listContainer) {
+    return showError("未找到支持的视频列表容器", 3000);
+  }
+
+  const videoItems = listContainer.querySelectorAll(".video-pod__item");
+  if (videoItems.length === 0) {
+    return showError("未找到视频项", 3000);
+  }
+
+  const parseTime = (str) => {
+    if (!str) return 0;
+    const [m, s] = str.trim().split(":").map(Number);
+    return m * 60 + (s || 0);
+  };
+
+  const formatTime = (sec) => {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
+
+  let total = 0, watched = 0, currentWatched = 0, activeFound = false;
+  let hasInvalidItems = false;
+
+  videoItems.forEach(item => {
+    const dur = item.querySelector(".duration");
+
+    if (!dur) {
+      hasInvalidItems = true;
+      return;
     }
 
-    const videoItems = listContainer.querySelectorAll(".simple-base-item.video-pod__item");
-    if (videoItems.length === 0) {
-        return showError("未找到视频项", 3000);
+    const sec = parseTime(dur.textContent);
+    if (isNaN(sec)) {
+      hasInvalidItems = true;
+      return;
     }
 
-    const parseTime = (str) => {
-        if (!str) return 0;
-        const [m, s] = str.trim().split(":").map(Number);
-        return m * 60 + (s || 0);
-    };
+    total += sec;
 
-    const formatTime = (sec) => {
-        const h = Math.floor(sec / 3600);
-        const m = Math.floor((sec % 3600) / 60);
-        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-    };
-
-    let total = 0, watched = 0, activeFound = false;
-    let hasInvalidItems = false;
-
-    videoItems.forEach(item => {
-        const dur = item.querySelector(".duration");
-
-        if (!dur) {
-            hasInvalidItems = true;
-            return;
-        }
-
-        const sec = parseTime(dur.textContent);
-        if (isNaN(sec)) {
-            hasInvalidItems = true;
-            return;
-        }
-
-        total += sec;
-
-        if (!activeFound) {
-            if (item.classList.contains("active")) {
-                activeFound = true;
-            } else {
-                watched += sec;
-            }
-        }
-    });
-
-    if (hasInvalidItems) {
-        return showError("部分视频缺少时长信息", 5000);
+    if (!activeFound) {
+      if (item.classList.contains("active") || item.querySelector(".active") !== null) {
+        activeFound = true;
+      } else {
+        watched += sec;
+      }
     }
+  });
 
-    if (total === 0) {
-        return showError("所有视频都缺少时长信息", 5000);
-    }
+  currentWatched += parseTime(document.querySelector(".bpx-player-ctrl-time-current").textContent);
 
-    const percent = (watched / total * 100).toFixed(2);
+  if (hasInvalidItems) {
+    return showError("视频缺少时长信息", 5000);
+  }
 
-    const style = `
+  const percent = ((watched + currentWatched) / total * 100).toFixed(2);
+
+  const style = `
     .bk_bili-progress {
       position: fixed; 
       top: 14%; 
@@ -126,14 +121,14 @@ javascript: (() => {
     }
   `;
 
-    const html = `
+  const html = `
     <div class="bk_bili-progress">
       <div class="bk_bili-header">
         <span>合集观看进度</span>
         <span class="bk_bili-close-btn" onclick="this.closest('.bk_bili-progress').remove()">×</span>
       </div>
       <div class="bk_bili-row">总时长: ${formatTime(total)}</div>
-      <div class="bk_bili-row">已观看: ${formatTime(watched)}</div>
+      <div class="bk_bili-row bk_watched">已观看: ${formatTime(watched + currentWatched)}</div>
       <div class="bk_bili-bar">
         <div class="bk_bili-progress-bar"></div>
       </div>
@@ -141,17 +136,17 @@ javascript: (() => {
     </div>
   `;
 
-    const div = document.createElement('div');
-    div.innerHTML = `<style>${style}</style>${html}`;
-    document.body.appendChild(div);
+  const div = document.createElement('div');
+  div.innerHTML = `<style>${style}</style>${html}`;
+  document.body.appendChild(div);
 
-    function showError(msg, duration = 3000) {
-        const existingError = document.querySelector('.bili-error-message');
-        if (existingError) existingError.remove();
+  function showError(msg, duration = 3000) {
+    const existingError = document.querySelector('.bili-error-message');
+    if (existingError) existingError.remove();
 
-        const err = document.createElement('div');
-        err.className = 'bili-error-message';
-        err.style = `
+    const err = document.createElement('div');
+    err.className = 'bili-error-message';
+    err.style = `
       position: fixed; 
       top: 14%; 
       right: 40px; 
@@ -169,21 +164,21 @@ javascript: (() => {
       animation: fadeIn 0.3s ease-out;
     `;
 
-        const style = document.createElement('style');
-        style.textContent = `
+    const style = document.createElement('style');
+    style.textContent = `
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
       }
     `;
-        document.head.appendChild(style);
+    document.head.appendChild(style);
 
-        err.textContent = msg;
-        document.body.appendChild(err);
+    err.textContent = msg;
+    document.body.appendChild(err);
 
-        setTimeout(() => {
-            err.style.animation = 'fadeOut 0.3s ease-in';
-            setTimeout(() => err.remove(), 300);
-        }, duration);
-    }
+    setTimeout(() => {
+      err.style.animation = 'fadeOut 0.3s ease-in';
+      setTimeout(() => err.remove(), 300);
+    }, duration);
+  }
 })();
