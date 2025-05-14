@@ -32,7 +32,7 @@
 
 #### 1、generate_QR_code	生成一枚自定义二维码（by 小老鼠：https://bookmarklet.appinn.me/）
 
-优化：窗口展示于浏览器中央
+优化：窗口样式
 
 ![1747188422622](images/README/1747188422622.png)
 
@@ -48,6 +48,14 @@
 
 #### 3、link_cleaner	缩短网址链接并复制（by 小老鼠）
 
-优化：优先使用navigator.clipboard复制内容至剪切板
+优化：复制优先使用navigator.clipboard
 
 ![1747203843434](images/README/1747203843434.png)
+
+
+
+#### 4、paragraph_check & copy	段落高亮+复制高亮（by 小老鼠）
+
+优化：复制优先使用navigator.clipboard、通知样式
+
+![1747209940678](images/README/1747209940678.png)
