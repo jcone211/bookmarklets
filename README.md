@@ -4,15 +4,15 @@
 
 
 
-#### 使用方式
+### 使用方式
 
 浏览器标签栏鼠标右键 —> 添加网页 —> 将所选的 js 代码全选复制到“网址” —> 保存
 
 
 
-#### 书签列表
+### 书签列表
 
-##### 1、bilibili_progress bilibili	获取视频观看进度
+#### 1、bilibili_progress bilibili	获取视频观看进度
 
 ![1747136638805](images/README/1747136638805.png)
 
@@ -22,15 +22,15 @@
 
 
 
-##### 2、time_tools	时间工具。实时展示时间，时间戳-日期互相转换（点击箭头方向切换）
+#### 2、time_tools	时间工具。实时展示时间，时间戳-日期互相转换（点击箭头方向切换）
 
 ![1747139527187](images/README/1747139527187.png)
 
 
 
-#### 其他开源收集优化
+### 其他开源收集优化
 
-##### 1、generate_QR_code	生成一枚自定义二维码（by 小老鼠：https://bookmarklet.appinn.me/）
+#### 1、generate_QR_code	生成一枚自定义二维码（by 小老鼠：https://bookmarklet.appinn.me/）
 
 优化：窗口展示于浏览器中央
 
@@ -38,7 +38,7 @@
 
 
 
-##### 2、web_page_auto_scrolling	网页自动滚动（by 小老鼠）
+#### 2、web_page_auto_scrolling	网页自动滚动（by 小老鼠）
 
 点书签开始滚动，点网页空白处切换滚动状态（开始/停止），双击网页空白返回顶部（x）
 
@@ -46,6 +46,8 @@
 
 
 
-##### 3、link_cleaner	缩短网址链接并复制（by 小老鼠）
+#### 3、link_cleaner	缩短网址链接并复制（by 小老鼠）
 
 优化：优先使用navigator.clipboard复制内容至剪切板
+
+![1747203843434](images/README/1747203843434.png)
