@@ -25,3 +25,11 @@
 ##### 2、time_tools	时间工具。实时展示时间，时间戳-日期互相转换（点击箭头方向切换）
 
 ![1747139527187](images/README/1747139527187.png)
+
+
+
+#### 其他开源收集优化
+
+##### 1、generate_QR_code	生成一枚自定义二维码（by 小老鼠：https://bookmarklet.appinn.me/）
+
+![1747188422622](images/README/1747188422622.png)

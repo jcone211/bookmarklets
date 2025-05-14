@@ -1,24 +1,24 @@
 javascript: (() => {
-    const padNumber = (num, length = 2) => num.toString().padStart(length, '0');
+  const padNumber = (num, length = 2) => num.toString().padStart(length, '0');
 
-    const formatDateTime = (time) => {
-        return `${time.getFullYear()}-${padNumber(time.getMonth() + 1)}-${padNumber(time.getDate())} ` +
-            `${padNumber(time.getHours())}:${padNumber(time.getMinutes())}:${padNumber(time.getSeconds())}.` +
-            `${padNumber(time.getMilliseconds(), 3)}`;
+  const formatDateTime = (time) => {
+    return `${time.getFullYear()}-${padNumber(time.getMonth() + 1)}-${padNumber(time.getDate())} ` +
+      `${padNumber(time.getHours())}:${padNumber(time.getMinutes())}:${padNumber(time.getSeconds())}.` +
+      `${padNumber(time.getMilliseconds(), 3)}`;
+  };
+  function createPopup() {
+    const now = new Date();
+    const dateStr = formatDateTime(now);
+    const timestamp = now.getTime();
+
+    if (document.getElementById('time-tool-overlay')) return;
+
+    const getCurrentTime = () => {
+      const time = new Date();
+      return `${padNumber(time.getHours())}:${padNumber(time.getMinutes())}:${padNumber(time.getSeconds())}`;
     };
-    function createPopup() {
-        const now = new Date();
-        const dateStr = formatDateTime(now);
-        const timestamp = now.getTime();
 
-        if (document.getElementById('time-tool-overlay')) return;
-
-        const getCurrentTime = () => {
-            const time = new Date();
-            return `${padNumber(time.getHours())}:${padNumber(time.getMinutes())}:${padNumber(time.getSeconds())}`;
-        };
-
-        const html = `
+    const html = `
       <div id="time-tool-overlay" class="overlay">
         <div class="popup">
           <div class="content">
@@ -38,7 +38,7 @@ javascript: (() => {
       </div>
     `;
 
-        const style = `
+    const style = `
       <style>
         .overlay {
           position: fixed;
@@ -145,37 +145,37 @@ javascript: (() => {
       </style>
     `;
 
-        document.body.insertAdjacentHTML('beforeend', html);
-        document.head.insertAdjacentHTML('beforeend', style);
+    document.body.insertAdjacentHTML('beforeend', html);
+    document.head.insertAdjacentHTML('beforeend', style);
 
-        const overlay = document.getElementById('time-tool-overlay');
-        const realTimeDisplay = overlay.querySelector('.real-time');
-        const arrowButton = overlay.querySelector('.arrow-button');
-        const convertButton = overlay.querySelector('.convert-button');
-        const textArea2 = overlay.querySelectorAll('.text-area')[1];
-        const textArea3 = overlay.querySelectorAll('.text-area')[2];
+    const overlay = document.getElementById('time-tool-overlay');
+    const realTimeDisplay = overlay.querySelector('.real-time');
+    const arrowButton = overlay.querySelector('.arrow-button');
+    const convertButton = overlay.querySelector('.convert-button');
+    const textArea2 = overlay.querySelectorAll('.text-area')[1];
+    const textArea3 = overlay.querySelectorAll('.text-area')[2];
 
-        setInterval(() => {
-            realTimeDisplay.textContent = getCurrentTime();
-        }, 1000);
+    setInterval(() => {
+      realTimeDisplay.textContent = getCurrentTime();
+    }, 1000);
 
-        overlay.onclick = (e) => {
-            if (e.target === overlay) overlay.remove();
-        };
+    overlay.onclick = (e) => {
+      if (e.target === overlay) overlay.remove();
+    };
 
-        arrowButton.onclick = () => {
-            arrowButton.textContent = arrowButton.textContent === '↓↓' ? '↑↑' : '↓↓';
-        };
+    arrowButton.onclick = () => {
+      arrowButton.textContent = arrowButton.textContent === '↓↓' ? '↑↑' : '↓↓';
+    };
 
-        convertButton.onclick = () => {
-            if (arrowButton.textContent === '↑↑') {
-                textArea2.value = new Date(textArea3.value).getTime().toString();
-            } else {
-                const date = new Date(parseInt(textArea2.value));
-                textArea3.value = formatDateTime(date);
-            }
-        };
-    }
+    convertButton.onclick = () => {
+      if (arrowButton.textContent === '↑↑') {
+        textArea2.value = new Date(textArea3.value).getTime().toString();
+      } else {
+        const date = new Date(parseInt(textArea2.value));
+        textArea3.value = formatDateTime(date);
+      }
+    };
+  }
 
-    createPopup();
+  createPopup();
 })();
