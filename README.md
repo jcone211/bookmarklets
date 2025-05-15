@@ -12,7 +12,7 @@
 
 ### 书签列表
 
-#### 1、bilibili_progress bilibili	获取视频观看进度
+#### 1、bilibili_progress	b站-获取视频合集观看进度
 
 ![1747136638805](images/README/1747136638805.png)
 
@@ -22,7 +22,13 @@
 
 
 
-#### 2、time_tools	时间工具。实时展示时间，时间戳-日期互相转换（点击箭头方向切换）
+#### 2、bilibili_ad_hide	b站-页面美化
+
+![1747291371110](images/README/1747291371110.png)
+
+
+
+#### 3、time_tools	时间工具。实时展示时间，时间戳-日期互相转换（点击箭头方向切换）
 
 ![1747139527187](images/README/1747139527187.png)
 
