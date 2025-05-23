@@ -59,4 +59,14 @@ javascript: (() => {
             element.style.display = 'none';
         }
     });
+    const elementsToRemove = [
+        r3_ad1,
+        r3_ad2,
+        r6_ad
+    ];
+    elementsToRemove.forEach(element => {
+        if (element) {
+            element.remove();
+        }
+    });
 })();
